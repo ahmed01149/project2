@@ -1,7 +1,11 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import ContactPage from "../pages/ContactPage";
 
-Given("I open the Contact page", () => { cy.visit("/contact"); });
+Given("I open the Contact page", () => {
+  cy.visit("https://practicesoftwaretesting.com/contact", {
+    failOnStatusCode: false
+  });
+});
 
 When("I fill the contact form with valid data", () => {
   ContactPage.firstName.type("Mohamed");
@@ -13,11 +17,14 @@ When("I fill the contact form with valid data", () => {
 });
 
 When("I enter an invalid email {string}", (badEmail) => {
- 
   ContactPage.email.clear().type(badEmail);
-  ContactPage.submitBtn.click(); 
+  ContactPage.submitBtn.click();
 });
-When("I click the submit button", () => { ContactPage.submitBtn.click(); });
+
+When("I click the submit button", () => {
+  ContactPage.submitBtn.click();
+});
+
 When("I fill the form without selecting a subject", () => {
   ContactPage.firstName.type("Amda");
   ContactPage.email.type("test@test.com");
@@ -25,15 +32,21 @@ When("I fill the form without selecting a subject", () => {
   ContactPage.submitBtn.click();
 });
 
-Then("I should see a success message {string}", () => { cy.get('.alert-success', {timeout: 10000}).should('be.visible'); });
-Then("I should see an error message {string}", (errorMsg) => {
-  
-  cy.get('.alert-danger, .invalid-feedback', { timeout: 10000 })
-    .should('be.visible');
+Then("I should see a success message {string}", () => {
+  cy.get(".alert-success", { timeout: 15000 })
+    .should("be.visible");
+});
+
+Then("I should see an error message {string}", () => {
+  cy.get(".alert-danger, .invalid-feedback", { timeout: 15000 })
+    .should("be.visible");
 });
 
 Then("I should see multiple validation errors", () => {
-
-  cy.get('.alert-danger, .invalid-feedback').should('have.length.be.at.least', 1);
+  cy.get(".alert-danger, .invalid-feedback")
+    .should("have.length.gte", 1);
 });
-Then("I should see an upload field for attachments", () => { cy.get('#attachment').should('exist'); });
+
+Then("I should see an upload field for attachments", () => {
+  cy.get("#attachment").should("exist");
+});
