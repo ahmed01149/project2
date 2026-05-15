@@ -1,0 +1,2 @@
+- name: Run Cypress tests
+  run: npm test
